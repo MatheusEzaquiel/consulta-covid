@@ -27,7 +27,7 @@ class PacienteController extends Controller {
         ]);
      
 
-        $novoPaciente = Paciente::create($request->all());
+        $novoPaciente = Paciente::firstOrCreate($request->all());
 
         return $novoPaciente;
     }

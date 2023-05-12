@@ -10,7 +10,7 @@ class ConsultaController extends Controller {
     public function index() {
 
         return Consulta::all();
-        
+
     }
 
     public function create() {}
@@ -25,16 +25,17 @@ class ConsultaController extends Controller {
             'id_patient' => 'required'
         ]);
 
-        $novaConsulta = Consulta::create($request->all());
+        $novaConsulta = Consulta::firstOrCreate($request->all());
         return $novaConsulta;
 
     }
 
-    public function show(Consulta $consulta) {}
+    public function show(Consulta $consulta, $id) {}
 
     public function edit(Consulta $consulta) {}
 
     public function update(Request $request, Consulta $consulta) {}
 
     public function destroy(Consulta $consulta) {}
+
 }
