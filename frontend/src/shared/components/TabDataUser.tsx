@@ -8,11 +8,12 @@
 
    
     interface IIdProps{
-        id: number
+        idPatient: number
+        idAppointment: number;
     }
 
 
-    export const TabDataUser = ({id}: IIdProps) => {
+    export const TabDataUser = ({idPatient, idAppointment}: IIdProps) => {
       
      
         const [patient, setPatient] = useState<IPatient>({
@@ -26,7 +27,7 @@
 
         useEffect(() => {
             
-            PatientsService.getById(id)
+            PatientsService.getById(idPatient)
             .then((data) => {
 
             
@@ -57,7 +58,11 @@
 
                     </Card.Text>
     
-                    <Link to={`/dados-de-saude/${patient.id}`}><Button>Nova Consulta</Button></Link>
+                    <Link to={`/dados-de-saude/${idPatient}/${idAppointment}`}>
+                        <Button>Nova Consulta</Button>
+                    </Link>
+
+
                 </Card.Body>
                 <Card.Footer className="text-muted"></Card.Footer>
                 </Card>

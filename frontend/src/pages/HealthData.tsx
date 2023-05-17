@@ -7,7 +7,7 @@ import { HealthDataPacientContext } from "../shared/contexts/HealtDataPacient";
 
 export const HealthData = () => {
 
-    const { id } = useParams();
+    const { idPatient, idAppointment } = useParams();
     
     const temperaturaArr: string[] = ["Hipotermia", "Afebril", "Estado febril", "Febre", "Pirexia", "Hiperpirexia"];
     const freqCardiacaArr: string[] = ["Bradicárdico", "Normocárdico", "Taquicárdico"];
@@ -127,7 +127,8 @@ export const HealthData = () => {
                         />
                 </Form.Group>
 
-                <Link to={`/sintomas/${id}`}>
+
+                <Link to={`/sintomas/${idPatient}/${idAppointment}`}>
                     <Button variant="primary" onClick={ () => changeHealthData({temperature: temp, heartRate: freqCardiaca, respiratoryRate: freqRespiratoria})}>Avançar</Button>
                 </Link>
 

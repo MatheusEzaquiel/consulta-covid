@@ -6,11 +6,12 @@ import { TabDataUser } from './TabDataUser';
 import { TabDataAppointments } from './TabDataAppointments'
 
 interface IIdProps{
-  id: number
+  idPatient: number
+  idAppointment: number;
 }
 
 
-export const ControlledTabs = ({id}: IIdProps) => {
+export const ControlledTabs = ({idPatient, idAppointment}: IIdProps) => {
   const [key, setKey] = useState('appointment');
 
   return (
@@ -18,14 +19,16 @@ export const ControlledTabs = ({id}: IIdProps) => {
       id="controlled-tab-example"
       activeKey={key}
       onSelect={(k) => setKey(k ?? 'appointment')}
-      className="mb-3"
-    >
+      className="mb-3">
+
       <Tab eventKey="appointment" title="Atendimento">
-        <TabDataUser id={id}/>
+        <TabDataUser idPatient={idPatient} idAppointment={idAppointment}/>
       </Tab>
+
       <Tab eventKey="oldAppointments" title="Atendimentos anteriores">
         <TabDataAppointments/>
       </Tab>
+
     </Tabs>
   );
 }

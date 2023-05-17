@@ -20,8 +20,11 @@ type Checkbox = {
 export const CheckboxForm = () => {
 
 
-  const { id } = useParams();
-  const idPatientSelected = Number(id)
+  const { idPatient, idAppointment } = useParams();
+
+  const idPatientSelected = Number(idPatient)
+
+  
 
 
   const [checkboxes, setCheckboxes] = useState<Checkbox[]>([

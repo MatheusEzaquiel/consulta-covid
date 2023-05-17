@@ -70,8 +70,8 @@ export const Home = () => {
 
             {patients.map((patient) => (
                 <tr key={patient.id}>
-
-                    <td>{patient.condition}</td>             
+                    <td>{patient.id}</td>  
+                    <td>{patient.condition}</td>   
                     <td>{patient.name}</td>
                     <td>{patient.cpf}</td>
                     <td>{patient.phone}</td>
@@ -79,7 +79,7 @@ export const Home = () => {
                     
             
                     <td>
-                    <Link to={`atendimento/${patient.id_patient}`}>
+                    <Link to={`atendimento/${patient.id_patient}/${patient.id}`}>
                         <Button>ir para consulta</Button>
                     </Link>
                     </td>
