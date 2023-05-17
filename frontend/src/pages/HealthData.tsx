@@ -1,92 +1,91 @@
 import { Form, Button, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+
+import { Link, useParams } from "react-router-dom";
+
+import { useState, useContext } from "react";
+import { HealthDataPacientContext } from "../shared/contexts/HealtDataPacient";
 
 export const HealthData = () => {
 
+    const { id } = useParams();
+    
     const temperaturaArr: string[] = ["Hipotermia", "Afebril", "Estado febril", "Febre", "Pirexia", "Hiperpirexia"];
     const freqCardiacaArr: string[] = ["Bradicárdico", "Normocárdico", "Taquicárdico"];
     const freqRespiratoriaArr: string[] = ["Bradipnéico", "Eupnéico", "Taquipnéico"];
     const estadoCor = ['success','warning','danger']
 
 
-    const [temp, setTemp] = useState('');
-    const [freqCardiaca, setFreqCardiaca] = useState('');
-    const [freqRespiratoria, setFreqRespiratoria] = useState('');
+    const [temp, setTemp] = useState(0);
+    const [freqCardiaca, setFreqCardiaca] = useState(0);
+    const [freqRespiratoria, setFreqRespiratoria] = useState(0);
 
 
-    const tempAlert = (temp: string) => {
+    const tempAlert = (temp: number) => {
 
-        let tempNum = Number(temp);
-
-        if(tempNum == 0){
+        if(temp === 0){
    
             return "";
         
-        }else if (tempNum < 36.1) {
+        }else if (temp < 36.1) {
             let i: string = temperaturaArr[0];
             return i;
 
-        }else if(tempNum >= 36.1 && tempNum <= 37.2) {
+        }else if(temp >= 36.1 && temp <= 37.2) {
             let i: string = temperaturaArr[1]
             return i;
 
-        }else if(tempNum >= 37.3 && tempNum <= 37.7) {
+        }else if(temp >= 37.3 && temp <= 37.7) {
             let i: string = temperaturaArr[2]
             return i;
 
-        }else if(tempNum >= 37.8 && tempNum <= 38.9) {
+        }else if(temp >= 37.8 && temp <= 38.9) {
                 let i: string = temperaturaArr[3]
                 return i;
             
-        }else if(tempNum >= 39 && tempNum <= 40) {
+        }else if(temp >= 39 && temp <= 40) {
             let i: string = temperaturaArr[4]
             return i;
             
-        }else if(tempNum > 40) {
+        }else if(temp > 40) {
             let i: string = temperaturaArr[5]
             return i;
         }
     }
 
-    const freqCardAlert = (freqCard: string) => {
+    const freqCardAlert = (freqCard: number) => {
 
-        let freqCardNum = Number(freqCard);
-
-        if (freqCardNum > 0 && freqCardNum < 60) {
+        if (freqCard > 0 && freqCard < 60) {
             let i: string = freqCardiacaArr[0];
             return i;
 
-        }else if(freqCardNum >= 60 && freqCardNum <= 100) {
+        }else if(freqCard >= 60 && freqCard <= 100) {
             let i: string = freqCardiacaArr[1]
             return i;
 
-        }else if (freqCardNum > 100) {
+        }else if (freqCard > 100) {
             let i: string = freqCardiacaArr[2]
             return i;
         }
     }
 
-    const freqRespirAlert = (freqRespiratoria: string) => {
+    const freqRespirAlert = (freqRespiratoria: number) => {
 
-        let freqRespNum = Number(freqRespiratoria);
-
-        if (freqRespNum > 0 && freqRespNum < 14) {
+        if (freqRespiratoria > 0 && freqRespiratoria < 14) {
             let i: string = freqRespiratoriaArr[0];
             return i;
 
-        }else if(freqRespNum >= 15 && freqRespNum <= 20) {
+        }else if(freqRespiratoria >= 15 && freqRespiratoria <= 20) {
             let i: string = freqRespiratoriaArr[1]
             return i;
 
-        }else if (freqRespNum > 20) {
+        }else if (freqRespiratoria > 20) {
             let i: string = freqRespiratoriaArr[2]
             return i;
         }
     }
 
     
-    
+    const { healthData, changeHealthData} = useContext(HealthDataPacientContext);
     
 
     return(
@@ -104,7 +103,7 @@ export const HealthData = () => {
                         type="text"
                         placeholder="Exemplo: 35"
                         name="temperatura"
-                        value={temp} onChange={(e) => {setTemp(e.target.value)}}
+                        value={temp} onChange={(e) => {setTemp(Number(e.target.value))}}
                         />
                 </Form.Group>
 
@@ -114,7 +113,7 @@ export const HealthData = () => {
                         type="text"
                         placeholder="Exemplo: 80"
                         name="freqCardiaca"
-                        value={freqCardiaca} onChange={(e)=>{setFreqCardiaca(e.target.value)}}
+                        value={freqCardiaca} onChange={(e)=>{setFreqCardiaca(Number(e.target.value))}}
                         />
                 </Form.Group>
 
@@ -124,12 +123,12 @@ export const HealthData = () => {
                         type="text"
                         placeholder="Exemplo: 16"
                         name="freqRespiratoria"
-                        value={freqRespiratoria} onChange={(e) => {setFreqRespiratoria(e.target.value)}}
+                        value={freqRespiratoria} onChange={(e) => {setFreqRespiratoria(Number(e.target.value))}}
                         />
                 </Form.Group>
 
-                <Link to="/sintomas">
-                    <Button variant="primary">Avançar</Button>
+                <Link to={`/sintomas/${id}`}>
+                    <Button variant="primary" onClick={ () => changeHealthData({temperature: temp, heartRate: freqCardiaca, respiratoryRate: freqRespiratoria})}>Avançar</Button>
                 </Link>
 
                 <Alert variant={estadoCor[0]}>
@@ -140,15 +139,19 @@ export const HealthData = () => {
                     Frequência cardíaca: {freqCardAlert(freqCardiaca)}
                 </Alert>
                   
-
                 <Alert variant={estadoCor[2]}>
                     Frequência respiratória: {freqRespirAlert(freqRespiratoria)}
                 </Alert>
-
              
             </Form>
 
+            <h2>{healthData.temperature}</h2>
+            <h2>{healthData.heartRate}</h2>
+            <h2>{healthData.respiratoryRate}</h2>
+            
         </>
 
     );
+
+    
 }

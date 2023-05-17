@@ -57,7 +57,7 @@
 
                     </Card.Text>
     
-                    <Link to="/dados-de-saude"><Button>Nova Consulta</Button></Link>
+                    <Link to={`/dados-de-saude/${patient.id}`}><Button>Nova Consulta</Button></Link>
                 </Card.Body>
                 <Card.Footer className="text-muted"></Card.Footer>
                 </Card>
