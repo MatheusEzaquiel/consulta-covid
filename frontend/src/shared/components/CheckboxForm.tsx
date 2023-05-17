@@ -1,5 +1,13 @@
-import React, { useState } from 'react';
 import { Form, Button, Row, Container, Col } from "react-bootstrap";
+
+import { useContext } from "react";
+import React, { useState } from 'react';
+
+import { Link, useParams } from "react-router-dom";
+
+import { PacientDataContext } from "./../contexts/PacientData";
+import { HealthDataPacientContext } from "./../contexts/HealtDataPacient";
+
 
 type Checkbox = {
   id: number;
@@ -7,7 +15,15 @@ type Checkbox = {
   checked: boolean;
 };
 
+
+
 export const CheckboxForm = () => {
+
+
+  const { id } = useParams();
+  const idPatientSelected = Number(id)
+
+
   const [checkboxes, setCheckboxes] = useState<Checkbox[]>([
     { id: 1, label: 'Febre', checked: false },
     { id: 2, label: 'Coriza', checked: false },
@@ -38,40 +54,68 @@ export const CheckboxForm = () => {
 
     event.preventDefault();
     const checkedCheckboxes = checkboxes.filter((c) => c.checked);
-    console.log(`Foram marcados ${checkedCheckboxes.length} checkboxes`);
+    console.log(`${checkedCheckboxes.length} checkboxes`);
+
+    changePacientData({ idPatient: idPatientSelected, condition: checkedCheckboxes.length });
+
+        console.log(pacientData.idPatient, pacientData.condition);
 
   };
 
+  const { pacientData, changePacientData} = useContext(PacientDataContext);
+   const { healthData, changeHealthData} = useContext(HealthDataPacientContext);
+
+
   return (
 
-    
-    <Form    onSubmit={handleSubmit}>
+    <>
+      <Form    onSubmit={handleSubmit}>
 
-        <Row>
+          <Row>
 
+          
+              {checkboxes.map((checkbox) => (
+
+                  <div key={checkbox.id}>
+
+                      <Form.Group className="mb-3" controlId="formBasicCheckbox" >
+                          <Form.Check
+                              type="checkbox" 
+                              label={checkbox.label} 
+                              id={checkbox.id.toString()}
+                              name={checkbox.label}
+                              checked={checkbox.checked}
+                              onChange={(e) => handleCheckboxChange(e, checkbox)}
+                          />
+                      </Form.Group>
+                  
+                  </div>
+
+              ))}
+
+          </Row>
+      
+        <Button type="submit" variant="primary">Finalizar</Button>
+      </Form>
+
+      
+      
+
+      <Button onClick={() => {
         
-            {checkboxes.map((checkbox) => (
+        
 
-                <div key={checkbox.id}>
+        }}>
+        Change
+      </Button>
 
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox" >
-                        <Form.Check
-                            type="checkbox" 
-                            label={checkbox.label} 
-                            id={checkbox.id.toString()}
-                            name={checkbox.label}
-                            checked={checkbox.checked}
-                            onChange={(e) => handleCheckboxChange(e, checkbox)}
-                        />
-                    </Form.Group>
-                
-                </div>
+      <h2>{healthData.temperature}</h2>
+      <h2>{healthData.heartRate}</h2>
+      <h2>{healthData.respiratoryRate}</h2>
+      <h2>{pacientData.idPatient}</h2>
+      <h2>{pacientData.condition}</h2>
 
-            ))}
 
-        </Row>
-    
-      <Button type="submit" variant="primary">Finalizar</Button>
-    </Form>
+    </>
   );
 }
