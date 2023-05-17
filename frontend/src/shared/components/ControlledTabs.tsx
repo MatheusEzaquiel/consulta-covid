@@ -24,7 +24,7 @@ export const ControlledTabs = ({id}: IIdProps) => {
         <TabDataUser id={id}/>
       </Tab>
       <Tab eventKey="oldAppointments" title="Atendimentos anteriores">
-        <TabDataAppointments />
+        <TabDataAppointments/>
       </Tab>
     </Tabs>
   );

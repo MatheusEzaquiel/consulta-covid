@@ -36,7 +36,7 @@ export const ModalUser = () => {
             name: formData.name,
             birthday: formData.birthday,
             phone: formData.phone,
-            image: formData.image[0],
+            image: formData.image,
 
         }).then((result) => {
 

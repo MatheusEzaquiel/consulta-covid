@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+
 import { ControlledTabs } from "../shared/components/ControlledTabs";
 
 export const Appointment = () =>{
@@ -9,6 +10,7 @@ export const Appointment = () =>{
         <>
             <h1>Página de Atendimento</h1>
             <ControlledTabs id={Number(id)}/>
+  
         </>
     );
 }
