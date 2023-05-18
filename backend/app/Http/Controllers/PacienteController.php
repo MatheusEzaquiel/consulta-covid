@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Paciente;
+use App\Models\Consulta;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,7 +31,20 @@ class PacienteController extends Controller {
 
         $novoPaciente = Paciente::firstOrCreate($request->all());
 
-        return $novoPaciente;
+         
+        //Criar a primeira consulta
+        $appointment = new Consulta();
+        
+        $appointment->condition = "Não atendido";
+        $appointment->temperature = 0;
+        $appointment->heart_rate = 0;
+        $appointment->respiratory_rate = 0;
+        $appointment->id_patient = $novoPaciente->id;
+        $appointmentArr = $appointment->toArray();
+
+        $firstAppointment = Consulta::firstOrCreate($appointmentArr);
+
+        return $firstAppointment;
     }
    
     public function show(Paciente $paciente, int $id) {
