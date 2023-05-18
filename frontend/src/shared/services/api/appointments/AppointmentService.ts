@@ -11,6 +11,18 @@ export interface IAppointment {
     id_patient: number;
 }
 
+const getAppointmentsByPatient = async (idPatient: number): Promise<IAppointment[] | ApiException> => {
+
+    try {
+
+        const { data } = await Api().get(`/consultas-paciente/${idPatient}`);
+
+        return data;
+
+    }catch(error: any){
+        return new ApiException(error.message || 'Erro ao retornar lista de consultas do paciente');
+    }
+}
 
 const updateById = async (id: number, dataToUpdate: IAppointment): Promise<undefined | ApiException> => {
 
@@ -20,13 +32,14 @@ const updateById = async (id: number, dataToUpdate: IAppointment): Promise<undef
         return data;
 
     } catch (error: any) {
-        return new ApiException(error.message || 'Erro ao atualizar dados do usuário');
+        return new ApiException(error.message || 'Erro ao atualizar dados da consulta');
     }
 
 }
 
 export const AppointmentsService = {
-
+    
+    getAppointmentsByPatient,
     updateById,
 
 }
