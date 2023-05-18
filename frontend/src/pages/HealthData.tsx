@@ -145,10 +145,6 @@ export const HealthData = () => {
                 </Alert>
              
             </Form>
-
-            <h2>{healthData.temperature}</h2>
-            <h2>{healthData.heartRate}</h2>
-            <h2>{healthData.respiratoryRate}</h2>
             
         </>
 

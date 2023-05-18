@@ -10,7 +10,6 @@ interface IIdProps{
   idAppointment: number;
 }
 
-
 export const ControlledTabs = ({idPatient, idAppointment}: IIdProps) => {
   const [key, setKey] = useState('appointment');
 
@@ -26,7 +25,7 @@ export const ControlledTabs = ({idPatient, idAppointment}: IIdProps) => {
       </Tab>
 
       <Tab eventKey="oldAppointments" title="Atendimentos anteriores">
-        <TabDataAppointments/>
+        <TabDataAppointments idPatient={idPatient}/>
       </Tab>
 
     </Tabs>

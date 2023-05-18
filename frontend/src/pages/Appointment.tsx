@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 
-import { ControlledTabs } from "../shared/components/ControlledTabs";
+import { ControlledTabs } from "../shared/components/Tabs/ControlledTabs";
 
 export const Appointment = () =>{
 

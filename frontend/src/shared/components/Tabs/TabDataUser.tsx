@@ -3,8 +3,8 @@
 
     import { Button, Card } from 'react-bootstrap';
 
-    import { ApiException } from "../services/api/ApiException";
-    import {IPatient, PatientsService } from "../services/api/patients/PatientService";
+    import { ApiException } from "../../services/api/ApiException";
+    import {IPatient, PatientsService } from "../../services/api/patients/PatientService";
 
    
     interface IIdProps{
