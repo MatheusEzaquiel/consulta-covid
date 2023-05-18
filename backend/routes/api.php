@@ -17,5 +17,6 @@ Route::post('/paciente', [PacienteController::class, 'store'])->name('paciente.s
 
 Route::get('/consultas', [ConsultaController::class, 'index'])->name('consulta.index');
 Route::post('/consulta', [ConsultaController::class, 'store'])->name('consulta.store');
+Route::put('/consulta/{id}', [ConsultaController::class, 'update'])->name('consulta.update');
 
 
