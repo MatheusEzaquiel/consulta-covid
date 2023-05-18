@@ -8,6 +8,8 @@ import { Link, useParams } from "react-router-dom";
 import { PacientDataContext } from "./../contexts/PacientData";
 import { HealthDataPacientContext } from "./../contexts/HealtDataPacient";
 
+import { AppointmentsService } from "../services/api/appointments/AppointmentService";
+
 
 type Checkbox = {
   id: number;
@@ -21,11 +23,12 @@ export const CheckboxForm = () => {
 
 
   const { idPatient, idAppointment } = useParams();
+  const idPatientSelected = Number(idPatient);
+  const idAppointmentSelected = Number(idAppointment);
 
-  const idPatientSelected = Number(idPatient)
-
+  const { pacientData, changePacientData} = useContext(PacientDataContext);
+  const { healthData, changeHealthData} = useContext(HealthDataPacientContext);
   
-
 
   const [checkboxes, setCheckboxes] = useState<Checkbox[]>([
     { id: 1, label: 'Febre', checked: false },
@@ -59,19 +62,34 @@ export const CheckboxForm = () => {
     const checkedCheckboxes = checkboxes.filter((c) => c.checked);
     console.log(`${checkedCheckboxes.length} checkboxes`);
 
-    changePacientData({ idPatient: idPatientSelected, condition: checkedCheckboxes.length });
+    //changePacientData({ idPatient: idPatientSelected, condition: checkedCheckboxes.length });
 
-        console.log(pacientData.idPatient, pacientData.condition);
+
+    try {
+
+      AppointmentsService.updateById(idAppointmentSelected, 
+        {
+          condition: checkedCheckboxes.length,
+          temperature: healthData.temperature,
+          heart_rate: healthData.heartRate,
+          respiratory_rate: healthData.respiratoryRate,
+          id_patient: idPatientSelected,
+        }
+      );
+
+    } catch(error: any) {
+      return 'erro';
+    }
+    
+    
+    
 
   };
-
-  const { pacientData, changePacientData} = useContext(PacientDataContext);
-   const { healthData, changeHealthData} = useContext(HealthDataPacientContext);
-
 
   return (
 
     <>
+
       <Form    onSubmit={handleSubmit}>
 
           <Row>
@@ -100,23 +118,6 @@ export const CheckboxForm = () => {
       
         <Button type="submit" variant="primary">Finalizar</Button>
       </Form>
-
-      
-      
-
-      <Button onClick={() => {
-        
-        
-
-        }}>
-        Change
-      </Button>
-
-      <h2>{healthData.temperature}</h2>
-      <h2>{healthData.heartRate}</h2>
-      <h2>{healthData.respiratoryRate}</h2>
-      <h2>{pacientData.idPatient}</h2>
-      <h2>{pacientData.condition}</h2>
 
 
     </>

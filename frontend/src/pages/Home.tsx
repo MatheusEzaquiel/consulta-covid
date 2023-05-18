@@ -69,8 +69,7 @@ export const Home = () => {
             <tbody>
 
             {patients.map((patient) => (
-                <tr key={patient.id}>
-                    <td>{patient.id}</td>  
+                <tr key={patient.id}> 
                     <td>{patient.condition}</td>   
                     <td>{patient.name}</td>
                     <td>{patient.cpf}</td>
