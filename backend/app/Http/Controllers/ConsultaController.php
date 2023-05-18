@@ -30,9 +30,23 @@ class ConsultaController extends Controller {
 
     }
 
-    public function show(Consulta $consulta, $id) {}
+    public function show(int $id) {
 
-    public function edit(Consulta $consulta) {}
+        $appointments = Consulta::find($id);
+
+        return $appointments;
+
+    }
+
+    public function showAppointByPacient(int $idPacient) {
+
+        $appointments = Consulta::where('id_patient', $idPacient)->get();
+
+        return $appointments;
+
+    }
+
+    public function edit() {}
 
     public function update(Request $request, int $id) {
         
@@ -77,6 +91,6 @@ class ConsultaController extends Controller {
         return $appointment;
     }
 
-    public function destroy(Consulta $consulta) {}
+    public function destroy() {}
 
 }

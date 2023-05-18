@@ -16,6 +16,8 @@ Route::get('/paciente/{id}', [PacienteController::class, 'show'])->name('pacient
 Route::post('/paciente', [PacienteController::class, 'store'])->name('paciente.store');
 
 Route::get('/consultas', [ConsultaController::class, 'index'])->name('consulta.index');
+Route::get('/consulta/{id}', [ConsultaController::class, 'show'])->name('consulta.show');
+Route::get('/consultas-paciente/{id}', [ConsultaController::class, 'showAppointByPacient'])->name('consulta.paciente');
 Route::post('/consulta', [ConsultaController::class, 'store'])->name('consulta.store');
 Route::put('/consulta/{id}', [ConsultaController::class, 'update'])->name('consulta.update');
 
