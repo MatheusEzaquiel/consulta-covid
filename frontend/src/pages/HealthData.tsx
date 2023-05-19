@@ -1,4 +1,5 @@
 import { Form, Button, Alert } from "react-bootstrap";
+import { TabDataUser } from "../shared/components/TabDataUser";
 
 import { Link, useParams } from "react-router-dom";
 
@@ -8,6 +9,9 @@ import { HealthDataPacientContext } from "../shared/contexts/HealtDataPacient";
 export const HealthData = () => {
 
     const { idPatient, idAppointment } = useParams();
+
+    
+    
     
     const temperaturaArr: string[] = ["Hipotermia", "Afebril", "Estado febril", "Febre", "Pirexia", "Hiperpirexia"];
     const freqCardiacaArr: string[] = ["Bradicárdico", "Normocárdico", "Taquicárdico"];
@@ -91,6 +95,8 @@ export const HealthData = () => {
     return(
 
         <>
+
+            <TabDataUser idPatient={Number(idPatient)}/>
             <h2>Dados de saúde</h2>
 
             <p>Informe alguns dados de saúde do paciente para continuar a consulta</p>
@@ -127,10 +133,18 @@ export const HealthData = () => {
                         />
                 </Form.Group>
 
+                { idAppointment ?  
 
-                <Link to={`/sintomas/${idPatient}/${idAppointment}`}>
-                    <Button variant="primary" onClick={ () => changeHealthData({temperature: temp, heartRate: freqCardiaca, respiratoryRate: freqRespiratoria})}>Avançar</Button>
-                </Link>
+                    ( <Link to={`/sintomas/${idPatient}/${idAppointment}`}>
+                        <Button variant="primary" onClick={ () => changeHealthData({temperature: temp, heartRate: freqCardiaca, respiratoryRate: freqRespiratoria})}>Avançar</Button>
+                    </Link>) 
+                        : 
+                    ( <Link to={`/sintomas/${idPatient}`}>
+                        <Button variant="primary" onClick={ () => changeHealthData({temperature: temp, heartRate: freqCardiaca, respiratoryRate: freqRespiratoria})}>Avançar</Button>
+                    </Link>) }
+
+            
+               
 
                 <Alert variant={estadoCor[0]}>
                     Temperatura: {tempAlert(temp)}

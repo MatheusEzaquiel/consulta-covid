@@ -24,19 +24,19 @@ export const Routes = () => {
                 },
 
                 {
-                    path: "/atendimento/:idPatient/:idAppointment/",
+                    path: "/atendimento/:idPatient",
                     element: <Appointment/>
                 },
 
                 {
-                    path: "/dados-de-saude/:idPatient/:idAppointment/",
+                    path: "/dados-de-saude/:idPatient/:idAppointment?",
                     element: <HealthData/>
                 },
 
                 {
-                    path: "/sintomas/:idPatient/:idAppointment/",
+                    path: "/sintomas/:idPatient/:idAppointment?",
                     element: <Symptoms/>
-                }
+                },
 
             ]
         }

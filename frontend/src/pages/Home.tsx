@@ -31,8 +31,6 @@ export const Home = () => {
                     
                 }
 
-               
-                
               
         })
     
@@ -48,7 +46,6 @@ export const Home = () => {
         return Math.floor(difAnos);
 
     }
-
 
     return (
         <>
@@ -68,35 +65,25 @@ export const Home = () => {
             </thead>
             <tbody>
 
-            {patients.map((patient) => (
-                <tr key={patient.id}> 
-                    <td>{patient.condition}</td>   
-                    <td>{patient.name}</td>
-                    <td>{patient.cpf}</td>
-                    <td>{patient.phone}</td>
-                    <td>{patientAge(patient.birthday)} anos</td>
-                    
-            
-                    <td>
-                    <Link to={`atendimento/${patient.id_patient}/${patient.id}`}>
-                        <Button>ir para consulta</Button>
-                    </Link>
-                    </td>
-                </tr>
-            ))}
-            
-           
+                {patients.map((patient) => (
+                    <tr key={patient.id}> 
+                        <td>{patient.condition}</td>   
+                        <td>{patient.name}</td>
+                        <td>{patient.cpf}</td>
+                        <td>{patient.phone}</td>
+                        <td>{patientAge(patient.birthday)} anos</td>
+                        
                 
-          
-
-
-
-            
+                        <td>
+                        <Link to={`atendimento/${patient.id_patient}`}>
+                            <Button>ir para consulta</Button>
+                        </Link>
+                        </td>
+                    </tr>
+                ))}
+             
             </tbody>
             </Table>
-
-           
-            
 
         </>
     )
