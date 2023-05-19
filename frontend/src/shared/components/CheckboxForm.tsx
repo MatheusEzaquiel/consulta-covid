@@ -3,12 +3,13 @@ import { Form, Button, Row, Container, Col } from "react-bootstrap";
 import { useContext } from "react";
 import React, { useState } from 'react';
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import { PacientDataContext } from "./../contexts/PacientData";
 import { HealthDataPacientContext } from "./../contexts/HealtDataPacient";
 
 import { AppointmentsService } from "../services/api/appointments/AppointmentService";
+import { ApiException } from "../services/api/ApiException";
 
 
 type Checkbox = {
@@ -25,6 +26,9 @@ export const CheckboxForm = () => {
   const { idPatient, idAppointment } = useParams();
   const idPatientSelected = Number(idPatient);
   const idAppointmentSelected = Number(idAppointment);
+
+ 
+  const navigate = useNavigate();
 
   const { pacientData, changePacientData} = useContext(PacientDataContext);
   const { healthData, changeHealthData} = useContext(HealthDataPacientContext);
@@ -60,29 +64,54 @@ export const CheckboxForm = () => {
 
     event.preventDefault();
     const checkedCheckboxes = checkboxes.filter((c) => c.checked);
-    console.log(`${checkedCheckboxes.length} checkboxes`);
+    
 
-    //changePacientData({ idPatient: idPatientSelected, condition: checkedCheckboxes.length });
+    //Update or Create appointment
+    if(idAppointment) {
+
+      try {
+
+        AppointmentsService.updateById(idAppointmentSelected, 
+        
+          {
+            condition: checkedCheckboxes.length,
+            temperature: healthData.temperature,
+            heart_rate: healthData.heartRate,
+            respiratory_rate: healthData.respiratoryRate,
+            id_patient: idPatientSelected,
+          }
+        );
+      } catch(error: any) {
+        return 'erro';
+      }
 
 
-    try {
+    } else {
+      try {
+        AppointmentsService.create({
 
-      AppointmentsService.updateById(idAppointmentSelected, 
-        {
           condition: checkedCheckboxes.length,
           temperature: healthData.temperature,
           heart_rate: healthData.heartRate,
           respiratory_rate: healthData.respiratoryRate,
           id_patient: idPatientSelected,
-        }
-      );
 
-    } catch(error: any) {
-      return 'erro';
+        }).then((result) => {
+
+
+          if (result instanceof ApiException){
+              return result.message;
+          }else{
+              console.log("cadastrou");
+          }
+          
+        })
+      } catch(error: any) {
+        return 'erro';
+      }
     }
-    
-    
-    
+
+    navigate("/");
 
   };
 
@@ -97,6 +126,7 @@ export const CheckboxForm = () => {
           
               {checkboxes.map((checkbox) => (
 
+                  
                   <div key={checkbox.id}>
 
                       <Form.Group className="mb-3" controlId="formBasicCheckbox" >
@@ -116,7 +146,7 @@ export const CheckboxForm = () => {
 
           </Row>
       
-        <Button type="submit" variant="primary">Finalizar</Button>
+        <Button type="submit" variant="primary" size="lg">Finalizar</Button>
       </Form>
 
 
