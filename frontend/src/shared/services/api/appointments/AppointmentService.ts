@@ -24,6 +24,19 @@ const getAppointmentsByPatient = async (idPatient: number): Promise<IAppointment
     }
 }
 
+const create = async (dataToCreate: Omit<IAppointment, 'id'>): Promise<IAppointment | ApiException> => {
+
+    try {
+
+        const { data } = await Api().post('/consulta', dataToCreate);
+        return data;
+
+    } catch (error: any) {
+        return new ApiException(error.message || 'Erro ao cadastrar usuário');
+    }
+}
+
+
 const updateById = async (id: number, dataToUpdate: IAppointment): Promise<undefined | ApiException> => {
 
     try {
@@ -40,6 +53,7 @@ const updateById = async (id: number, dataToUpdate: IAppointment): Promise<undef
 export const AppointmentsService = {
     
     getAppointmentsByPatient,
+    create,
     updateById,
 
 }
