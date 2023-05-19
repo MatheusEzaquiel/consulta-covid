@@ -1,73 +1,67 @@
-    import { useEffect, useState } from "react";
-    import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-    import { Button, Card } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
-    import { ApiException } from "../../services/api/ApiException";
-    import {IPatient, PatientsService } from "../../services/api/patients/PatientService";
+import { Button, Card } from 'react-bootstrap';
 
-   
-    interface IIdProps{
-        idPatient: number
-        idAppointment: number;
-    }
+import { ApiException } from "../../services/api/ApiException";
+import {IPatient, PatientsService } from "../../services/api/patients/PatientService";
 
 
-    export const TabDataUser = ({idPatient, idAppointment}: IIdProps) => {
-      
-     
-        const [patient, setPatient] = useState<IPatient>({
-            id: 0,
-            cpf: "",
-            name: "",
-            birthday: "",
-            phone: "",
-            image: "",
-        });
+interface IIdProps{
+    idPatient: number
+}
 
-        useEffect(() => {
-            
-            PatientsService.getById(idPatient)
-            .then((data) => {
 
-            
-                if (data instanceof ApiException) {
-                    alert(data.message);
-                } else if (Array.isArray(data) && data.length > 0) {
-                    setPatient(data[0]);
-                }
-            })
+export const TabDataUser = ({idPatient}: IIdProps) => {
+  
+ 
+    const [patient, setPatient] = useState<IPatient>({
+        id: 0,
+        cpf: "",
+        name: "",
+        birthday: "",
+        phone: "",
+        image: "",
+    });
 
-        }, []);
-
-        return(
-
-            <>
+    useEffect(() => {
         
-                <Card className="text-center">
-                <Card.Header>Informações do Usuário</Card.Header>
-                <Card.Body>
-                    <Card.Title></Card.Title>
-                    
-                    <Card.Text key={patient.id}>
+        PatientsService.getById(idPatient)
+        .then((data) => {
 
-                        <p>{patient.image}</p>
-                        <h2>{patient.name}</h2>
-                        <p>{patient.cpf}</p>
-                        <p>{patient.phone}</p>
+        
+            if (data instanceof ApiException) {
+                alert(data.message);
+            } else if (Array.isArray(data) && data.length > 0) {
+                setPatient(data[0]);
+            }
+        })
 
-                    </Card.Text>
+    }, []);
+
+    return(
+
+        <>
     
-                    <Link to={`/dados-de-saude/${idPatient}/${idAppointment}`}>
-                        <Button>Nova Consulta</Button>
-                    </Link>
-
-
-                </Card.Body>
-                <Card.Footer className="text-muted"></Card.Footer>
-                </Card>
+            <Card className="text-center">
+            <Card.Header>Informações do Paciente</Card.Header>
+            <Card.Body>
+                <Card.Title></Card.Title>
                 
-            </>
+                <Card.Text key={patient.id}>
+                    <p>{patient.image}</p>
+                    <h2>{patient.name}</h2>
+                    <p>CPF: {patient.cpf}</p>
+                    <p>Telefone: {patient.phone}</p>
+
+                </Card.Text>
+
+            </Card.Body>
+            <Card.Footer className="text-muted"></Card.Footer>
+            </Card>
             
-        )
-    }
+        </>
+        
+    )
+}

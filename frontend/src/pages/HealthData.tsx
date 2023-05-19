@@ -1,5 +1,5 @@
 import { Form, Button, Alert } from "react-bootstrap";
-import { TabDataUser } from "../shared/components/TabDataUser";
+import { TabDataUser } from "../shared/components/Tabs/TabDataUser";
 
 import { Link, useParams } from "react-router-dom";
 

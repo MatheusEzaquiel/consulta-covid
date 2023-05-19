@@ -20,11 +20,7 @@ export const ControlledTabs = ({idPatient, idAppointment}: IIdProps) => {
       onSelect={(k) => setKey(k ?? 'appointment')}
       className="mb-3">
 
-      <Tab eventKey="appointment" title="Atendimento">
-        <TabDataUser idPatient={idPatient} idAppointment={idAppointment}/>
-      </Tab>
-
-      <Tab eventKey="oldAppointments" title="Atendimentos anteriores">
+      <Tab eventKey="oldAppointments" title="Atendimentos">
         <TabDataAppointments idPatient={idPatient}/>
       </Tab>
 

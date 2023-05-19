@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useParams, Link } from "react-router-dom";
 
 import { ControlledTabs } from "../shared/components/Tabs/ControlledTabs";
-import { TabDataUser } from "../shared/components/TabDataUser";
+import { TabDataUser } from "../shared/components/Tabs/TabDataUser";
 
 export const Appointment = () =>{
 

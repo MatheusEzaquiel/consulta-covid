@@ -1,6 +1,6 @@
 import { CheckboxForm } from "./../shared/components/CheckboxForm";
 
-import { TabDataUser } from "../shared/components/TabDataUser";
+import { TabDataUser } from "../shared/components/Tabs/TabDataUser";
 
 import { useParams } from "react-router-dom";
 
