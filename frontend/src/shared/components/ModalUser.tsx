@@ -5,38 +5,41 @@ import { Form, Button, Modal } from "react-bootstrap";
 import {IPatient, PatientsService} from "../services/api/patients/PatientService";
 import { ApiException } from "./../services/api/ApiException";
 
+import { MaskedInput } from "./MaskedInput";
+
+const cpfIsValid = require ('validar-cpf');
+
 
 
 
 export const ModalUser = () => {
 
-  const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+    //Show Form
+    const [show, setShow] = useState(false);
 
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
-     
-  const [formData, setFormData] = useState <IPatient>({
-    id: 0,
-    cpf: "",
-    name: "",
-    birthday: "",
-    phone: "",
-    image: "" 
-});
+    //CPF
+    const [name, setName] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [phone, setPhone] = useState('');
+    const [birthday, setBirthday] = useState('');
+    const [image, setImage] = useState('');
+
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-
+       
         e.preventDefault();
-
+      
         PatientsService.create({
 
-            cpf: formData.cpf,
-            name: formData.name,
-            birthday: formData.birthday,
-            phone: formData.phone,
-            image: formData.image,
+            cpf: cpf,
+            name: name,
+            birthday: birthday,
+            phone: phone,
+            image: image,
 
         }).then((result) => {
 
@@ -47,21 +50,11 @@ export const ModalUser = () => {
                 console.log("cadastrou");
             }
         })
+      
+        
+       
     }
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-        const target = e.target;
-        const value = target.type === "checkbox" ? target.checked : target.value;
-        const name = target.name;
-
-        setFormData({
-        ...formData,
-        [name]: value,
-        });
-
-        console.log(formData);
-    }
 
     return (
         <>
@@ -82,11 +75,12 @@ export const ModalUser = () => {
                             type="text"
                             placeholder="Nome completo"
                             name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             />
                     </Form.Group>
-                
+
+                    {/* 
                     <Form.Group>
                         <Form.Label>CPF</Form.Label>
                         <Form.Control
@@ -98,26 +92,75 @@ export const ModalUser = () => {
                             />
                         <Form.Text>Insira apenas números</Form.Text>
                     </Form.Group>
-                
+                    */}
+
+
+                    <Form.Group>
+                        <Form.Label>CPF com máscara</Form.Label>
+
+                        <MaskedInput 
+                            value={cpf} 
+                            onChange={(e) => setCpf(e.target.value)}
+                            typeMask="999.999.999-99"
+                        />
+
+                        <Form.Text>Insira apenas números</Form.Text>
+                    </Form.Group>
+
+
+                    <Form.Group>
+                        <Form.Label>Telefone com máscara</Form.Label>
+
+                        <MaskedInput 
+                            value={phone} 
+                            onChange={(e) => setPhone(e.target.value)}
+                            typeMask="(99)99999-9999"
+                        />
+
+                        <Form.Text>Insira apenas números</Form.Text>
+                    </Form.Group>
+                    
+                    {/*
+                        <Form.Group>
+                            <Form.Label>CPF com máscara</Form.Label>
+
+                            <MaskedInput 
+                                
+                                value={cpf} 
+                                onChange={(e) => setCpf(e.target.value)}
+
+                            />
+
+                            <Form.Text>Insira apenas números</Form.Text>
+                        </Form.Group>
                     <Form.Group>
                         <Form.Label>Telefone</Form.Label>
                         <Form.Control
                         type="text"
                         placeholder="(00) 0 0000-0000"
                         name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         />
                         <Form.Text>Insira apenas números</Form.Text>
                     </Form.Group>
+                    
+                        */
+                    
+                    }
+
+
+
+                
+                    
                 
                     <Form.Group>
                         <Form.Label>Data de nascimento</Form.Label>
                         <Form.Control
                             type="date"
                             name="birthday"
-                            value={formData.birthday}
-                            onChange={handleInputChange}
+                            value={birthday}
+                            onChange={(e) => setBirthday(e.target.value)}
                         />
                     </Form.Group>
                 
@@ -127,18 +170,12 @@ export const ModalUser = () => {
                             type="file"
                             size="sm"
                             name="image"
-                            value={formData.image}
-                            onChange={handleInputChange}
+                            value={image}
+                            onChange={(e) => setImage(e.target.value)}
                             />
-                    </Form.Group>
-                
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Concordo com os termos do serviço" />
                     </Form.Group>
 
                     
-
-                            
                     <Modal.Footer>
 
                         <Button variant="secondary" onClick={handleClose}>
@@ -158,7 +195,7 @@ export const ModalUser = () => {
 
             </Modal>
 
-
+    
 
         </>
     );
