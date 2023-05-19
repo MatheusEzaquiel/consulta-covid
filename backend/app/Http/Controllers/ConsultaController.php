@@ -25,8 +25,30 @@ class ConsultaController extends Controller {
             'id_patient' => 'required'
         ]);
 
-        $novaConsulta = Consulta::firstOrCreate($request->all());
-        return $novaConsulta;
+        //condition calc
+        $qtySymptoms = $request->condition;
+        $qtySymptomsPercent = ($qtySymptoms / 14) * 100;
+ 
+        if( ($qtySymptomsPercent > 0) && ($qtySymptomsPercent <= 39.9)){
+ 
+            $condition = "Sintomas insuficientes";
+ 
+        }elseif( ($qtySymptomsPercent > 40) && ($qtySymptomsPercent <= 59.9) ){
+ 
+            $condition = "Potencial infectado";
+ 
+        }else if( ($qtySymptomsPercent > 60) && ($qtySymptomsPercent <= 100) ){ 
+ 
+            $condition = "Possível infectado";
+ 
+        }else{
+            $condition = "Não atendido";
+        }
+        
+        $request['condition'] = $condition;
+
+        $newAppointment = Consulta::firstOrCreate($request->all());
+        return $newAppointment;
 
     }
 
