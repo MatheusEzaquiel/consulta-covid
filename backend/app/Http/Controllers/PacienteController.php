@@ -60,14 +60,23 @@ class PacienteController extends Controller {
 
     public function destroy(Paciente $paciente) {}
 
-    public function pacientesConsultas() {
+    public function patientsLastAppointments() {
         
-        $pacientes = DB::table('pacientes')
-        ->join('consultas', 'pacientes.id', '=', 'consultas.id_patient')
-        ->select('pacientes.*', 'consultas.*')
-        ->get();
+  
+        $patientsLastAppointment = DB::table('pacientes')
 
+        ->join('consultas', 'pacientes.id', '=', 'consultas.id_patient')
+
+        ->select('pacientes.*', 'consultas.*')
+
+        ->join(DB::raw('(SELECT id_patient, MAX(created_at) as max_created_at FROM consultas GROUP BY id_patient) as latest_consultas'),
+            function ($join) {
+                $join->on('consultas.id_patient', '=', 'latest_consultas.id_patient')
+                    ->on('consultas.created_at', '=', 'latest_consultas.max_created_at');
+            })
+
+        ->orderBy('pacientes.id', 'desc')->get();
     
-        return $pacientes;
+        return $patientsLastAppointment;
     }
 }

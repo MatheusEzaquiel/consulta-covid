@@ -11,7 +11,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/pacientes', [PacienteController::class, 'index'])->name('paciente.index');
-Route::get('/pacientes-consultas', [PacienteController::class, 'pacientesConsultas'])->name('paciente.consulta');
+Route::get('/pacientes-consultas', [PacienteController::class, 'patientsLastAppointments'])->name('paciente.consulta');
 Route::get('/paciente/{id}', [PacienteController::class, 'show'])->name('paciente.show');
 Route::post('/paciente', [PacienteController::class, 'store'])->name('paciente.store');
 
