@@ -11,8 +11,7 @@ export const HealthData = () => {
 
     const { idPatient, idAppointment } = useParams();
 
-    
-    
+    const { healthData, changeHealthData} = useContext(HealthDataPacientContext);
     
     const temperaturaArr: string[] = ["Hipotermia", "Afebril", "Estado febril", "Febre", "Pirexia", "Hiperpirexia"];
     const freqCardiacaArr: string[] = ["Bradicárdico", "Normocárdico", "Taquicárdico"];
@@ -20,9 +19,9 @@ export const HealthData = () => {
     const estadoCor = ['success','warning','danger']
 
 
-    const [temp, setTemp] = useState(0);
-    const [freqCardiaca, setFreqCardiaca] = useState(0);
-    const [freqRespiratoria, setFreqRespiratoria] = useState(0);
+    const [temp, setTemp] = useState('');
+    const [freqCardiaca, setFreqCardiaca] = useState('');
+    const [freqRespiratoria, setFreqRespiratoria] = useState('');
 
 
     const tempAlert = (temp: number) => {
@@ -90,14 +89,13 @@ export const HealthData = () => {
     }
 
     
-    const { healthData, changeHealthData} = useContext(HealthDataPacientContext);
-    
 
     return(
 
         <>
 
             <TabDataUser idPatient={Number(idPatient)}/>
+
             <h2>Dados de saúde</h2>
 
             <p>Informe alguns dados de saúde do paciente para continuar a consulta</p>
@@ -110,7 +108,7 @@ export const HealthData = () => {
                         type="text"
                         placeholder="Exemplo: 35"
                         name="temperatura"
-                        value={temp} onChange={(e) => {setTemp(Number(e.target.value))}}
+                        value={temp} onChange={(e) => {setTemp(e.target.value)}}
                         />
                 </Form.Group>
 
@@ -120,7 +118,7 @@ export const HealthData = () => {
                         type="text"
                         placeholder="Exemplo: 80"
                         name="freqCardiaca"
-                        value={freqCardiaca} onChange={(e)=>{setFreqCardiaca(Number(e.target.value))}}
+                        value={freqCardiaca} onChange={(e)=>{setFreqCardiaca(e.target.value)}}
                         />
                 </Form.Group>
 
@@ -130,33 +128,36 @@ export const HealthData = () => {
                         type="text"
                         placeholder="Exemplo: 16"
                         name="freqRespiratoria"
-                        value={freqRespiratoria} onChange={(e) => {setFreqRespiratoria(Number(e.target.value))}}
+                        value={freqRespiratoria} onChange={(e) => {setFreqRespiratoria(e.target.value)}}
                         />
                 </Form.Group>
-
+                
+                
                 { idAppointment ?  
 
                     ( <Link to={`/sintomas/${idPatient}/${idAppointment}`}>
-                        <Button variant="primary" onClick={ () => changeHealthData({temperature: temp, heartRate: freqCardiaca, respiratoryRate: freqRespiratoria})}>Avançar</Button>
-                    </Link>) 
-                        : 
-                    ( <Link to={`/sintomas/${idPatient}`}>
-                        <Button variant="primary" onClick={ () => changeHealthData({temperature: temp, heartRate: freqCardiaca, respiratoryRate: freqRespiratoria})}>Avançar</Button>
-                    </Link>) }
+                        <Button variant="primary" onClick={ () => changeHealthData({temperature: Number(temp), heartRate: Number(freqCardiaca), respiratoryRate: Number(freqRespiratoria)})}>
+                            Avançar
+                        </Button>
+                    </Link>) :
 
-            
+                    ( <Link to={`/sintomas/${idPatient}`}>
+                        <Button variant="primary" onClick={ () => changeHealthData({temperature: Number(temp), heartRate: Number(freqCardiaca), respiratoryRate: Number(freqRespiratoria)})}>
+                            Avançar
+                        </Button>
+                    </Link>) }   
                
 
                 <Alert variant={estadoCor[0]}>
-                    Temperatura: {tempAlert(temp)}
+                    Temperatura: {tempAlert(Number(temp))}
                 </Alert>
 
                 <Alert variant={estadoCor[1]}>
-                    Frequência cardíaca: {freqCardAlert(freqCardiaca)}
+                    Frequência cardíaca: {freqCardAlert(Number(freqCardiaca))}
                 </Alert>
                   
                 <Alert variant={estadoCor[2]}>
-                    Frequência respiratória: {freqRespirAlert(freqRespiratoria)}
+                    Frequência respiratória: {freqRespirAlert(Number(freqRespiratoria))}
                 </Alert>
              
             </Form>
@@ -164,6 +165,5 @@ export const HealthData = () => {
         </>
 
     );
-
     
 }
