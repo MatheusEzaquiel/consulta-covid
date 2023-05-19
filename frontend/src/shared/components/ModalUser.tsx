@@ -1,6 +1,7 @@
 import  { useState } from "react";
 
 import { Form, Button, Modal } from "react-bootstrap";
+import { FaPlus } from "react-icons/fa";
 
 import {IPatient, PatientsService} from "../services/api/patients/PatientService";
 import { ApiException } from "./../services/api/ApiException";
@@ -58,9 +59,10 @@ export const ModalUser = () => {
 
     return (
         <>
-        <Button variant="primary" onClick={handleShow}>Cadastrar Paciente</Button>
+        <Button variant="primary" size="lg" onClick={handleShow}>Cadastrar Paciente <FaPlus size="20"/> </Button>
 
         <Modal show={show} onHide={handleClose} animation={false}>
+
             <Modal.Header closeButton>
             <Modal.Title>Cadastro de Usuário</Modal.Title>
             </Modal.Header>
@@ -79,21 +81,6 @@ export const ModalUser = () => {
                             onChange={(e) => setName(e.target.value)}
                             />
                     </Form.Group>
-
-                    {/* 
-                    <Form.Group>
-                        <Form.Label>CPF</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="000.000.000-00"
-                            name="cpf"
-                            value={formData.cpf}
-                            onChange={handleInputChange}
-                            />
-                        <Form.Text>Insira apenas números</Form.Text>
-                    </Form.Group>
-                    */}
-
 
                     <Form.Group>
                         <Form.Label>CPF com máscara</Form.Label>
@@ -119,40 +106,7 @@ export const ModalUser = () => {
 
                         <Form.Text>Insira apenas números</Form.Text>
                     </Form.Group>
-                    
-                    {/*
-                        <Form.Group>
-                            <Form.Label>CPF com máscara</Form.Label>
-
-                            <MaskedInput 
-                                
-                                value={cpf} 
-                                onChange={(e) => setCpf(e.target.value)}
-
-                            />
-
-                            <Form.Text>Insira apenas números</Form.Text>
-                        </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Telefone</Form.Label>
-                        <Form.Control
-                        type="text"
-                        placeholder="(00) 0 0000-0000"
-                        name="phone"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        />
-                        <Form.Text>Insira apenas números</Form.Text>
-                    </Form.Group>
-                    
-                        */
-                    
-                    }
-
-
-
-                
-                    
+                       
                 
                     <Form.Group>
                         <Form.Label>Data de nascimento</Form.Label>

@@ -1,4 +1,5 @@
 import { Form, Button, Alert } from "react-bootstrap";
+import { FaTemperatureHigh, FaHeartbeat, FaMedkit } from "react-icons/fa";
 import { TabDataUser } from "../shared/components/Tabs/TabDataUser";
 
 import { Link, useParams } from "react-router-dom";
@@ -104,7 +105,7 @@ export const HealthData = () => {
             <Form>
     
                 <Form.Group>
-                    <Form.Label>Temperatura</Form.Label>
+                    <Form.Label> <FaTemperatureHigh/> Temperatura</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Exemplo: 35"
@@ -114,7 +115,7 @@ export const HealthData = () => {
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label>Frequência cardíaca</Form.Label>
+                    <Form.Label> <FaHeartbeat/> Frequência cardíaca</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Exemplo: 80"
@@ -124,7 +125,7 @@ export const HealthData = () => {
                 </Form.Group>
 
                 <Form.Group>
-                    <Form.Label>Frequência respiratória</Form.Label>
+                    <Form.Label> <FaMedkit/> Frequência respiratória</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Exemplo: 16"

@@ -1,4 +1,5 @@
 import { Button } from "react-bootstrap";
+import { FaPlus } from "react-icons/fa";
 
 import { useParams, Link } from "react-router-dom";
 
@@ -18,7 +19,7 @@ export const Appointment = () =>{
             <ControlledTabs idPatient={Number(idPatient)} idAppointment={Number(idAppointment)}/>
 
             <Link to={`/dados-de-saude/${idPatient}`}>
-                <Button size="lg">Nova Consulta</Button>
+                <Button size="lg">Nova Consulta <FaPlus size="20"/></Button> 
             </Link>
         </>
     );
