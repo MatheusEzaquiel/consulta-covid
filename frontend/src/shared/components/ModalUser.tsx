@@ -1,7 +1,8 @@
 import  { useState } from "react";
 
-import { Form, Button, Modal } from "react-bootstrap";
+import { Form, Button, Modal} from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
+import "./ModalUser.css";
 
 import {IPatient, PatientsService} from "../services/api/patients/PatientService";
 import { ApiException } from "./../services/api/ApiException";
@@ -9,8 +10,6 @@ import { ApiException } from "./../services/api/ApiException";
 import { MaskedInput } from "./MaskedInput";
 
 const cpfIsValid = require ('validar-cpf');
-
-
 
 
 export const ModalUser = () => {
@@ -29,32 +28,52 @@ export const ModalUser = () => {
     const [birthday, setBirthday] = useState('');
     const [image, setImage] = useState('');
 
+    const [msgCreate, setMsgCreate] =  useState('');
+
+    
+    console.log(cpf);
+    console.log(`É válido: ${cpfIsValid(cpf)}`);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
        
         e.preventDefault();
-      
-        PatientsService.create({
-
-            cpf: cpf,
-            name: name,
-            birthday: birthday,
-            phone: phone,
-            image: image,
-
-        }).then((result) => {
-
-
-            if (result instanceof ApiException){
-                return result.message;
-            }else{
-                console.log("cadastrou");
-            }
-        })
-      
         
-       
+        if((cpfIsValid(cpf) === false) || ((cpf.length <= 0))) {
+
+            setMsgCreate(`CPF inválido`);    
+
+        }else if(Number(phone.length) !== 11) {
+
+            setMsgCreate(`Número de telefone inválido`);
+        
+        }else{
+
+            setMsgCreate('');
+
+            PatientsService.create({
+
+                cpf: cpf,
+                name: name,
+                birthday: birthday,
+                phone: phone,
+                image: image,
+    
+            }).then((result) => {
+    
+    
+                if (result instanceof ApiException){
+                    return result.message;
+                }else{
+                    console.log("cadastrou");
+                }
+            })
+    
+            setName('');    setCpf('');     setPhone('');   setBirthday('');    setImage('');
+        }   
+        
     }
+
+
 
 
     return (
@@ -64,7 +83,7 @@ export const ModalUser = () => {
         <Modal show={show} onHide={handleClose} animation={false}>
 
             <Modal.Header closeButton>
-            <Modal.Title>Cadastro de Usuário</Modal.Title>
+            <Modal.Title> Cadastro de Usuário </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
@@ -79,32 +98,32 @@ export const ModalUser = () => {
                             name="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            required
                             />
                     </Form.Group>
 
                     <Form.Group>
-                        <Form.Label>CPF com máscara</Form.Label>
+                        <Form.Label>CPF</Form.Label>
 
-                        <MaskedInput 
+                        <MaskedInput
                             value={cpf} 
                             onChange={(e) => setCpf(e.target.value)}
                             typeMask="999.999.999-99"
                         />
 
-                        <Form.Text>Insira apenas números</Form.Text>
+                        <Form.Text><p className="textAlert">{(cpf.length > 0)  && (cpfIsValid(cpf) === false) ? "CPF inválido" : ""}</p></Form.Text>
+
                     </Form.Group>
 
 
                     <Form.Group>
-                        <Form.Label>Telefone com máscara</Form.Label>
+                        <Form.Label>Telefone</Form.Label>
 
                         <MaskedInput 
                             value={phone} 
                             onChange={(e) => setPhone(e.target.value)}
                             typeMask="(99)99999-9999"
                         />
-
-                        <Form.Text>Insira apenas números</Form.Text>
                     </Form.Group>
                        
                 
@@ -115,6 +134,7 @@ export const ModalUser = () => {
                             name="birthday"
                             value={birthday}
                             onChange={(e) => setBirthday(e.target.value)}
+                            required
                         />
                     </Form.Group>
                 
@@ -126,6 +146,7 @@ export const ModalUser = () => {
                             name="image"
                             value={image}
                             onChange={(e) => setImage(e.target.value)}
+                            required
                             />
                     </Form.Group>
 
@@ -144,6 +165,8 @@ export const ModalUser = () => {
                 
                     
                 </Form>
+
+                <p className="textAlert centerTxt">{msgCreate}</p>
 
             </Modal.Body>
 

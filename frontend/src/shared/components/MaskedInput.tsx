@@ -29,7 +29,7 @@ export const MaskedInput = ({value, onChange, typeMask}: ICpfMask) => {
     return(
         <>  
             <br></br>
-            <InputMask mask={typeMask} value={value} onChange={handleChange} placeholder={typeMask}/> 
+            <InputMask required mask={typeMask} value={value} onChange={handleChange} placeholder={typeMask}/> 
             <br></br>
         </>
     );
