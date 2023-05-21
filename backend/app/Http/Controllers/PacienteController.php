@@ -7,6 +7,8 @@ use App\Models\Consulta;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PacienteController extends Controller {
 
@@ -25,13 +27,40 @@ class PacienteController extends Controller {
             'name' => 'required',
             'birthday' => 'required',
             'phone' => 'required',
-            'image' => 'required'
+            'image' => 'required|image|mimes:jpeg,jpg,png'
         ]);
-     
+    
+        // Upload da imagem
+        if ($request->hasFile('image')) {
 
-        $novoPaciente = Paciente::firstOrCreate($request->all());
+            $image = $request->file('image');
+            $filename = Str::random(20) . '.' . $image->getClientOriginalExtension();
+            $image->move('patients/', $filename);
 
-         
+        } else {
+            return response()->json([
+                'status' => 'falha no envio da imagem',
+                'message' => 'Nenhuma imagem foi enviada.'
+            ]);
+        }
+    
+        // Criar o registro do paciente
+        $newPatient = Paciente::firstOrCreate([
+            'cpf' => $request->cpf,
+            'name' => $request->name,
+            'birthday' => $request->birthday,
+            'phone' => $request->phone,
+            'image' => $filename
+        ]);
+    
+        if ($newPatient) {
+            $response["status"] = "sucesso";
+            $response["message"] = "Paciente criado com sucesso!";
+        } else {
+            $response["status"] = "falha";
+            $response["message"] = "Falha ao criar paciente.";
+        }
+        
         //Criar a primeira consulta
         $appointment = new Consulta();
         
@@ -39,17 +68,18 @@ class PacienteController extends Controller {
         $appointment->temperature = 0;
         $appointment->heart_rate = 0;
         $appointment->respiratory_rate = 0;
-        $appointment->id_patient = $novoPaciente->id;
+        $appointment->id_patient = $newPatient->id;
         $appointmentArr = $appointment->toArray();
 
         $firstAppointment = Consulta::firstOrCreate($appointmentArr);
 
-        return $firstAppointment;
+
+        return response()->json($response);
     }
    
-    public function show(Paciente $paciente, int $id) {
+    public function show(int $id) {
 
-        $paciente = $paciente::where('id', $id)->get();
+        $paciente = Paciente::where('id', $id)->get();
         return $paciente;
         
     }
@@ -58,7 +88,7 @@ class PacienteController extends Controller {
 
     public function update(Request $request, Paciente $paciente) {}
 
-    public function destroy(Paciente $paciente) {}
+    public function destroy() {}
 
     public function patientsLastAppointments() {
         
