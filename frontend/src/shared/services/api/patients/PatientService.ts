@@ -2,11 +2,11 @@ import { Api } from '../ApiConfig';
 import {ApiException} from '../ApiException'; 
 
 export interface IPatient {
-    id: number;
+    id?: number;
     name: string;
     cpf: string;
     phone: string;
-    image: string;
+    image: File | string;
     birthday: string;
 }
 
@@ -64,11 +64,13 @@ const getById = async (id: number): Promise<IPatient | ApiException> => {
     }
 }
 
-const create = async (dataToCreate: Omit<IPatient, 'id'>): Promise<IPatient | ApiException> => {
+const create = async (dataToCreate: IPatient): Promise<IPatient | ApiException> => {
 
     try {
 
-        const { data } = await Api().post('/paciente', dataToCreate);
+        const { data } = await Api().post('/paciente', dataToCreate,  {
+            headers: { 'Content-type': 'multipart/form-data',}
+        });
         return data;
 
     } catch (error: any) {

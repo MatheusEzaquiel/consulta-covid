@@ -17,22 +17,17 @@ export const ModalUser = () => {
 
     //Show Form
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    //CPF
+    //Inputs Form
     const [name, setName] = useState('');
     const [cpf, setCpf] = useState('');
     const [phone, setPhone] = useState('');
     const [birthday, setBirthday] = useState('');
-    const [image, setImage] = useState('');
+    const [imageData, setImageData] = useState<File | string>('');
 
     const [msgCreate, setMsgCreate] =  useState('');
-
-    
-    console.log(cpf);
-    console.log(`É válido: ${cpfIsValid(cpf)}`);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
        
@@ -47,28 +42,30 @@ export const ModalUser = () => {
             setMsgCreate(`Número de telefone inválido`);
         
         }else{
+ 
 
-            setMsgCreate('');
-
-            PatientsService.create({
-
+            const patientData: IPatient = {
                 cpf: cpf,
                 name: name,
                 birthday: birthday,
                 phone: phone,
-                image: image,
-    
-            }).then((result) => {
+                image: imageData,
+              };
+
+            PatientsService.create(patientData).then((result) => {
     
     
                 if (result instanceof ApiException){
                     return result.message;
                 }else{
-                    console.log("cadastrou");
+                    setMsgCreate('Paciente Cadastrado');
+                    console.log(imageData);
                 }
             })
+
+            
     
-            setName('');    setCpf('');     setPhone('');   setBirthday('');    setImage('');
+            setName('');    setCpf('');     setPhone('');   setBirthday('');  setMsgCreate(''); imageData('');
         }   
         
     }
@@ -144,9 +141,15 @@ export const ModalUser = () => {
                             type="file"
                             size="sm"
                             name="image"
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                            required
+                            
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                
+                                if (e.target.files && e.target.files[0]) {
+                                    setImageData(e.target.files[0]);
+                                    console.log(e.target.files[0])
+                                  }
+                              }}
+                              required
                             />
                     </Form.Group>
 
@@ -166,7 +169,7 @@ export const ModalUser = () => {
                     
                 </Form>
 
-                <p className="textAlert centerTxt">{msgCreate}</p>
+                <p className={msgCreate === 'Paciente Cadastrado' ? "textSuccess centerTxt" : "textAlert centerTxt"}>{msgCreate}</p>
 
             </Modal.Body>
 

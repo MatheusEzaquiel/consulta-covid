@@ -2,6 +2,10 @@
     color: #a3030e;
 }
 
+.textSuccess {
+    color: #03a380;
+}
+
 .centerTxt {
     text-align: center;
 }

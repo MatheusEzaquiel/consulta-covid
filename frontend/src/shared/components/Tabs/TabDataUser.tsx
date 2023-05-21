@@ -50,7 +50,7 @@ export const TabDataUser = ({idPatient}: IIdProps) => {
                 <Card.Title></Card.Title>
                 
                 <Card.Text key={patient.id}>
-                    <p>{patient.image}</p>
+                    <img src={`http://localhost/consulta-covid/backend/public/patients/${patient.image}`} />
                     <h2>{patient.name}</h2>
                     <p>CPF: {patient.cpf}</p>
                     <p>Telefone: {patient.phone}</p>
