@@ -1,8 +1,7 @@
-import  { useState } from "react";
+import  { useState, useRef } from "react";
 
 import { Form, Button, Modal} from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
-import "./ModalUser.css";
 
 import {IPatient, PatientsService} from "../services/api/patients/PatientService";
 import { ApiException } from "./../services/api/ApiException";
@@ -25,9 +24,12 @@ export const ModalUser = () => {
     const [cpf, setCpf] = useState('');
     const [phone, setPhone] = useState('');
     const [birthday, setBirthday] = useState('');
-    const [imageData, setImageData] = useState<File | string>('');
+    const [imageData, setImageData] = useState<File | null>(null);
 
+    //Message
     const [msgCreate, setMsgCreate] =  useState('');
+
+    const imageInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
        
@@ -62,10 +64,8 @@ export const ModalUser = () => {
                     console.log(imageData);
                 }
             })
-
-            
     
-            setName('');    setCpf('');     setPhone('');   setBirthday('');  setMsgCreate(''); imageData('');
+            setName('');    setCpf('');     setPhone('');   setBirthday('');  setImageData(null); setMsgCreate('');
         }   
         
     }
@@ -141,16 +141,36 @@ export const ModalUser = () => {
                             type="file"
                             size="sm"
                             name="image"
-                            
+                            accept="jpg, jpeg, png"
+                            required
+                            ref={imageInputRef}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                 
                                 if (e.target.files && e.target.files[0]) {
-                                    setImageData(e.target.files[0]);
-                                    console.log(e.target.files[0])
+                                    
+                                    const typeImage = e.target.files[0].type;
+
+                                    if( (typeImage === 'image/png') || (typeImage === 'image/jpeg') || (typeImage === 'image/jpg')) {
+                                        setImageData(e.target.files[0]);
+                                        
+                                    }else {
+
+                                        if (imageInputRef.current) {
+                                            imageInputRef.current.value = '';
+                                        }
+
+                                        alert("Selecione uma imagem do tipo .PNG, .JPEG ou .JPG");
+                                    }
+
+                                    
+
+                                    
                                   }
-                              }}
-                              required
-                            />
+                            }}
+                        />
+
+                        
+
                     </Form.Group>
 
                     

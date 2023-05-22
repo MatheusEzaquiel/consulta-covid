@@ -6,7 +6,7 @@ export interface IPatient {
     name: string;
     cpf: string;
     phone: string;
-    image: File | string;
+    image: File | null;
     birthday: string;
 }
 

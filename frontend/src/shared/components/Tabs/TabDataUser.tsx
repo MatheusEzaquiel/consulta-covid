@@ -22,7 +22,7 @@ export const TabDataUser = ({idPatient}: IIdProps) => {
         name: "",
         birthday: "",
         phone: "",
-        image: "",
+        image: null,
     });
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export const TabDataUser = ({idPatient}: IIdProps) => {
                 <Card.Title></Card.Title>
                 
                 <Card.Text key={patient.id}>
-                    <img src={`http://localhost/consulta-covid/backend/public/patients/${patient.image}`} />
+                    <img src={`http://localhost/consulta-covid/backend/public/patients/${patient.image}`} className="resizeImage" />
                     <h2>{patient.name}</h2>
                     <p>CPF: {patient.cpf}</p>
                     <p>Telefone: {patient.phone}</p>

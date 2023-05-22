@@ -4,6 +4,7 @@ import reportWebVitals from './reportWebVitals';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-icons';
+import './global.css';
 
 import { RouterProvider } from 'react-router-dom';
 import { Routes } from './routes/Routes';
