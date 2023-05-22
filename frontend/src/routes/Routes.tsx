@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
 import { App } from './../app/App';
-import { Error404 } from './../pages/ErrorPages/Error404';
+import { Error404 } from '../pages/Error404';
 import { Home } from './../pages/Home';
 import { Appointment } from './../pages/Appointment';
 import { HealthData } from './../pages/HealthData';

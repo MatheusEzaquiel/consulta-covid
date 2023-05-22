@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Exception;
+
 
 use App\Models\Paciente;
 use App\Models\Consulta;
@@ -13,10 +15,17 @@ use Illuminate\Support\Str;
 class PacienteController extends Controller {
 
     public function index() {
-        return Paciente::all();
+
+        $patients = Paciente::all();
+
+        if($patients->isEmpty()){
+            return response()->json(['error' => 'nenhum paciente encontrado']);
+        }
+        
+        return $patients;
+
     }
 
-  
     public function create() {}
 
   
@@ -30,7 +39,7 @@ class PacienteController extends Controller {
             'image' => 'required|image|mimes:jpeg,jpg,png'
         ]);
     
-        // Upload da imagem
+        // Upload image
         if ($request->hasFile('image')) {
 
             $image = $request->file('image');
@@ -38,13 +47,9 @@ class PacienteController extends Controller {
             $image->move('patients/', $filename);
 
         } else {
-            return response()->json([
-                'status' => 'falha no envio da imagem',
-                'message' => 'Nenhuma imagem foi enviada.'
-            ]);
+            return response()->json(['message' => 'falha no upload de imagem']);
         }
     
-        // Criar o registro do paciente
         $newPatient = Paciente::firstOrCreate([
             'cpf' => $request->cpf,
             'name' => $request->name,
@@ -53,15 +58,8 @@ class PacienteController extends Controller {
             'image' => $filename
         ]);
     
-        if ($newPatient) {
-            $response["status"] = "sucesso";
-            $response["message"] = "Paciente criado com sucesso!";
-        } else {
-            $response["status"] = "falha";
-            $response["message"] = "Falha ao criar paciente.";
-        }
         
-        //Criar a primeira consulta
+        //Create first appointment
         $appointment = new Consulta();
         
         $appointment->condition = "Não atendido";
@@ -73,14 +71,17 @@ class PacienteController extends Controller {
 
         $firstAppointment = Consulta::firstOrCreate($appointmentArr);
 
-
-        return response()->json($response);
     }
    
     public function show(int $id) {
 
-        $paciente = Paciente::where('id', $id)->get();
-        return $paciente;
+        $patient = Paciente::where('id', $id)->get();
+
+        if($patient->isEmpty()) {
+            return response()->json(['error' => 'paciente não encontrado']);
+        }
+
+        return $patient;
         
     }
 

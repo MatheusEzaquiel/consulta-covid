@@ -14,3 +14,7 @@
 .centerTxt {
     text-align: center;
 }
+
+.center { 
+    margin: 2em auto;
+}

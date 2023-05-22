@@ -44,7 +44,7 @@ export const TabDataUser = ({idPatient}: IIdProps) => {
 
         <>
     
-            <Card className="text-center">
+            <Card className="text-center m-auto mt-2">
             <Card.Header>Informações do Paciente</Card.Header>
             <Card.Body>
                 <Card.Title></Card.Title>

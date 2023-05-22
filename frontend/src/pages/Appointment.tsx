@@ -3,8 +3,8 @@ import { FaPlus } from "react-icons/fa";
 
 import { useParams, Link } from "react-router-dom";
 
-import { ControlledTabs } from "../shared/components/Tabs/ControlledTabs";
 import { TabDataUser } from "../shared/components/Tabs/TabDataUser";
+import { TabDataAppointments } from "../shared/components/Tabs/TabDataAppointments";
 
 export const Appointment = () =>{
 
@@ -15,11 +15,10 @@ export const Appointment = () =>{
             <h1>Página de Atendimento</h1>
 
             <TabDataUser idPatient={Number(idPatient)}/>
-
-            <ControlledTabs idPatient={Number(idPatient)} idAppointment={Number(idAppointment)}/>
+            <TabDataAppointments idPatient={Number(idPatient)}/>
 
             <Link to={`/dados-de-saude/${idPatient}`}>
-                <Button size="lg">Nova Consulta <FaPlus size="20"/></Button> 
+                <Button size="lg"  className="m-4">Nova Consulta <FaPlus size="20"/></Button> 
             </Link>
         </>
     );

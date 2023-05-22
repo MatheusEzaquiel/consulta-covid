@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Button, Table } from "react-bootstrap";
+import { Alert, Button, Table } from "react-bootstrap";
 import { FaArrowRight } from "react-icons/fa"
 import { ModalUser } from "./../shared/components/ModalUser";
 
@@ -51,42 +51,50 @@ export const Home = () => {
 
     return (
         <>
-            
             <ModalUser></ModalUser>
-
-            <Table responsive>
-                <thead>
-                <tr>
-                    <th>Condição</th>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>Telefone</th>
-                    <th>Idade</th>
-                    <th>Atendimento</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                    {patients.map((patient) => (
-                        <tr key={patient.id}> 
-                            <td>{patient.condition}</td>   
-                            <td>{patient.name}</td>
-                            <td>{patient.cpf}</td>
-                            <td>{patient.phone}</td>
-                            <td>{patientAge(patient.birthday)} anos</td>
-                            
+            
+            {patients.length === 0 ? (
+                <Alert variant="primary">Sem pacientes cadastrados!</Alert>
+            ): (
+                <>
                     
-                            <td>
-                            <Link to={`atendimento/${patient.id_patient}`}>
-                                <Button><FaArrowRight /></Button>
-                            </Link>
-                            </td>
-                        </tr>
-                    ))}
-                
-                </tbody>
-            </Table>
 
+                    <Table responsive>
+                        <thead>
+                        <tr>
+                            <th>Condição</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Telefone</th>
+                            <th>Idade</th>
+                            <th>Atendimento</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                            {patients.map((patient) => (
+                                <tr key={patient.id}> 
+                                    <td>{patient.condition}</td>   
+                                    <td>{patient.name}</td>
+                                    <td>{patient.cpf}</td>
+                                    <td>{patient.phone}</td>
+                                    <td>{patientAge(patient.birthday)} anos</td>
+                                    
+                            
+                                    <td>
+                                    <Link to={`atendimento/${patient.id_patient}`}>
+                                        <Button><FaArrowRight /></Button>
+                                    </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        
+                        </tbody>
+                    </Table>
+                </>
+
+            )}
+                
         </>
     )
 }
