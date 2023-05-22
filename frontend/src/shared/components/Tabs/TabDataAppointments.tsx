@@ -48,7 +48,7 @@ export const TabDataAppointments = ({idPatient}: IIdProps) => {
                 appointments.map((appointment, index) => (
                
                     <Col>
-                        <Card key="primary"  className="m-3">
+                        <Card key="primary"  className="m-3 ">
                             <Card.Header><b>{index + 1}º consulta</b></Card.Header>
                             <Card.Body>
                                 <Card.Title><h3>Condição: {appointment.condition}</h3></Card.Title>

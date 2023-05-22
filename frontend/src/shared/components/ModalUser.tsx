@@ -75,7 +75,7 @@ export const ModalUser = () => {
 
     return (
         <>
-        <Button variant="primary" size="lg" onClick={handleShow}  className="m-4">Cadastrar Paciente <FaPlus size="20"/> </Button>
+        <Button variant="primary" size="lg" onClick={handleShow}  className="m-5 center" >Cadastrar Paciente <FaPlus size="20"/> </Button>
 
         <Modal show={show} onHide={handleClose} animation={false}>
 

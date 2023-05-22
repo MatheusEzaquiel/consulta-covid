@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import { Button, Row } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";
 
 import { useParams, Link } from "react-router-dom";
@@ -14,12 +14,21 @@ export const Appointment = () =>{
         <>
             <h1>Página de Atendimento</h1>
 
-            <TabDataUser idPatient={Number(idPatient)}/>
-            <TabDataAppointments idPatient={Number(idPatient)}/>
+            <Row>
+                <TabDataUser idPatient={Number(idPatient)}/>
+            </Row>
 
-            <Link to={`/dados-de-saude/${idPatient}`}>
-                <Button size="lg"  className="m-4">Nova Consulta <FaPlus size="20"/></Button> 
-            </Link>
+            <Row>
+                <TabDataAppointments idPatient={Number(idPatient)}/>
+            </Row>
+
+            
+                <Link to={`/dados-de-saude/${idPatient}`}>
+                    <Row className="justify-content-center">
+                        <Button size="lg"  className="m-4 center">Nova Consulta <FaPlus size="20"/></Button>
+                    </Row> 
+                </Link>
+            
         </>
     );
 }

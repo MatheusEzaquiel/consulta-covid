@@ -19,7 +19,7 @@ export const NavbarIndex = ({title, optionsList, linksList}: INavbarProps) => {
 
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="primary" variant="dark">
+    <Navbar collapseOnSelect expand="lg" className="mb-4" bg="primary" variant="dark">
       <Container>
         <Navbar.Brand as={Link} to="/">{title}</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

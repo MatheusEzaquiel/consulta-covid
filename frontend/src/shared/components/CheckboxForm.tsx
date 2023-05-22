@@ -1,4 +1,4 @@
-import { Form, Button, Row, Container, Col } from "react-bootstrap";
+  import { Form, Button, Row, Container, Col } from "react-bootstrap";
 
 import { useContext } from "react";
 import React, { useState } from 'react';
@@ -118,37 +118,46 @@ export const CheckboxForm = () => {
   return (
 
     <>
-
-      <Form    onSubmit={handleSubmit}>
-
-          <Row>
+    <Container>
+      <Row className="justify-content-center">
+        
+        <Col></Col>
+        
+        <Col>
+          <Form    onSubmit={handleSubmit}>
 
           
-              {checkboxes.map((checkbox) => (
 
-                  
-                  <div key={checkbox.id}>
 
-                      <Form.Group className="mb-3" controlId="formBasicCheckbox" >
-                          <Form.Check
-                              type="checkbox" 
-                              label={checkbox.label} 
-                              id={checkbox.id.toString()}
-                              name={checkbox.label}
-                              checked={checkbox.checked}
-                              onChange={(e) => handleCheckboxChange(e, checkbox)}
-                          />
-                      </Form.Group>
-                  
-                  </div>
+            
+                {checkboxes.map((checkbox) => (
 
-              ))}
+                    
+                    <div key={checkbox.id}>
 
-          </Row>
-      
-        <Button type="submit" variant="primary" size="lg">Finalizar</Button>
-      </Form>
+                        <Form.Group className="mb-3" controlId="formBasicCheckbox" >
+                            <Form.Check
+                                type="checkbox" 
+                                label={checkbox.label} 
+                                id={checkbox.id.toString()}
+                                name={checkbox.label}
+                                checked={checkbox.checked}
+                                onChange={(e) => handleCheckboxChange(e, checkbox)}
+                            />
+                        </Form.Group>
+                    
+                    </div>
 
+                ))}
+
+        
+          <Button type="submit" variant="primary" size="lg">Finalizar</Button>
+          </Form>
+        </Col>
+
+        <Col></Col>
+      </Row>
+    </Container>
 
     </>
   );

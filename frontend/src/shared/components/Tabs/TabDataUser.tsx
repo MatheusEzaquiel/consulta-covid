@@ -52,8 +52,8 @@ export const TabDataUser = ({idPatient}: IIdProps) => {
                 <Card.Text key={patient.id}>
                     <img src={`http://localhost/consulta-covid/backend/public/patients/${patient.image}`} className="resizeImage" />
                     <h2>{patient.name}</h2>
-                    <p>CPF: {patient.cpf}</p>
-                    <p>Telefone: {patient.phone}</p>
+                    <p>CPF: {patient.cpf.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2')}</p>
+                    <p>Telefone: {patient.phone.replace(/(\d{2})(\d)/, '($1)$2').replace(/(\d{5})(\d)/, '$1-$2')}</p>
 
                 </Card.Text>
 

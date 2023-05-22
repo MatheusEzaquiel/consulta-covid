@@ -1,4 +1,4 @@
-import { Form, Button, Alert } from "react-bootstrap";
+import { Form, Button, Alert, Row, Col, Container } from "react-bootstrap";
 import { FaTemperatureHigh, FaHeartbeat, FaMedkit } from "react-icons/fa";
 import { TabDataUser } from "../shared/components/Tabs/TabDataUser";
 
@@ -96,72 +96,88 @@ export const HealthData = () => {
 
             <TabDataUser idPatient={Number(idPatient)}/>
 
-            <h2>Dados de saúde</h2>
+            <h2 className="m-4">Dados de saúde</h2>
 
             <p>Informe alguns dados de saúde do paciente para continuar a consulta</p>
 
-            <Form>
-    
-                <Form.Group>
-                    <Form.Label> <FaTemperatureHigh/> Temperatura</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Exemplo: 35"
-                        name="temperatura"
-                        value={temp} onChange={(e) => {setTemp(e.target.value)}}
-                        />
-                </Form.Group>
+            <Container>
+                <Row>
 
-                <Form.Group>
-                    <Form.Label> <FaHeartbeat/> Frequência cardíaca</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Exemplo: 80"
-                        name="freqCardiaca"
-                        value={freqCardiaca} onChange={(e)=>{setFreqCardiaca(e.target.value)}}
-                        />
-                </Form.Group>
+                    <Col>
+                    <Form>
+                        
+                        <Form.Group>
+                            <Form.Label> <FaTemperatureHigh/> Temperatura</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Exemplo: 35"
+                                name="temperatura"
+                                value={temp} onChange={(e) => {setTemp(e.target.value)}}
+                                />
+                        </Form.Group>
 
-                <Form.Group>
-                    <Form.Label> <FaMedkit/> Frequência respiratória</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Exemplo: 16"
-                        name="freqRespiratoria"
-                        value={freqRespiratoria} onChange={(e) => {setFreqRespiratoria(e.target.value)}}
-                        />
-                </Form.Group>
-                
+                        <Form.Group>
+                            <Form.Label> <FaHeartbeat/> Frequência cardíaca</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Exemplo: 80"
+                                name="freqCardiaca"
+                                value={freqCardiaca} onChange={(e)=>{setFreqCardiaca(e.target.value)}}
+                                />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Form.Label> <FaMedkit/> Frequência respiratória</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Exemplo: 16"
+                                name="freqRespiratoria"
+                                value={freqRespiratoria} onChange={(e) => {setFreqRespiratoria(e.target.value)}}
+                                />
+                        </Form.Group>
+                        
+                        
+                        
+                    
+                    
+                    </Form>
+                    </Col>
+                    <Col>
+                        <Alert variant={estadoCor[0]}>
+                                Temperatura: {tempAlert(Number(temp))}
+                            </Alert>
+
+                            <Alert variant={estadoCor[1]}>
+                                Frequência cardíaca: {freqCardAlert(Number(freqCardiaca))}
+                            </Alert>
+                            
+                            <Alert variant={estadoCor[2]}>
+                                Frequência respiratória: {freqRespirAlert(Number(freqRespiratoria))}
+                            </Alert>
+                    </Col>
+                </Row>
+
                 
                 { idAppointment ?  
 
                     ( <Link to={`/sintomas/${idPatient}/${idAppointment}`}>
-                        <Button variant="primary" onClick={ () => changeHealthData({temperature: Number(temp), heartRate: Number(freqCardiaca), respiratoryRate: Number(freqRespiratoria)})}>
-                            Avançar
-                        </Button>
+                        <Row className="justify-content-center">
+                            <Button variant="primary" className="m-5 center" size="lg" onClick={ () => changeHealthData({temperature: Number(temp), heartRate: Number(freqCardiaca), respiratoryRate: Number(freqRespiratoria)})}>
+                                Avançar
+                            </Button>
+                        </Row>
                     </Link>) :
 
                     ( <Link to={`/sintomas/${idPatient}`}>
-                        <Button variant="primary" onClick={ () => changeHealthData({temperature: Number(temp), heartRate: Number(freqCardiaca), respiratoryRate: Number(freqRespiratoria)})}>
-                            Avançar
-                        </Button>
+                        <Row className="justify-content-center">
+                            <Button variant="primary" className="m-5 center" size="lg" onClick={ () => changeHealthData({temperature: Number(temp), heartRate: Number(freqCardiaca), respiratoryRate: Number(freqRespiratoria)})}>
+                                Avançar
+                            </Button>
+                        </Row>
                     </Link>) }   
-               
 
-                <Alert variant={estadoCor[0]}>
-                    Temperatura: {tempAlert(Number(temp))}
-                </Alert>
-
-                <Alert variant={estadoCor[1]}>
-                    Frequência cardíaca: {freqCardAlert(Number(freqCardiaca))}
-                </Alert>
-                  
-                <Alert variant={estadoCor[2]}>
-                    Frequência respiratória: {freqRespirAlert(Number(freqRespiratoria))}
-                </Alert>
-             
-            </Form>
-            
+                          
+            </Container>
         </>
 
     );
