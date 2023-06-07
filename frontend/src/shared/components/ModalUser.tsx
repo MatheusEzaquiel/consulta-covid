@@ -10,8 +10,11 @@ import { MaskedInput } from "./MaskedInput";
 
 const cpfIsValid = require ('validar-cpf');
 
+interface IUpdtList {
+    getAllPatAppoint: () => void;
+}
 
-export const ModalUser = () => {
+export const ModalUser = ({getAllPatAppoint} : IUpdtList) => {
 
 
     //Show Form
@@ -54,14 +57,20 @@ export const ModalUser = () => {
                 image: imageData,
               };
 
-            PatientsService.create(patientData).then((result) => {
-    
+            PatientsService.create(patientData)
+            .then((result) => {
     
                 if (result instanceof ApiException){
+
                     return result.message;
+
                 }else{
+
                     setMsgCreate('Paciente Cadastrado');
-                    console.log(imageData);
+                    console.log("Paciente Criado");
+    
+                    getAllPatAppoint();
+
                 }
             })
     
@@ -162,9 +171,6 @@ export const ModalUser = () => {
                                         alert("Selecione uma imagem do tipo .PNG, .JPEG ou .JPG");
                                     }
 
-                                    
-
-                                    
                                   }
                             }}
                         />
