@@ -48,14 +48,14 @@ export const ModalUser = ({getAllPatAppoint} : IUpdtList) => {
         
         }else{
  
-
             const patientData: IPatient = {
                 cpf: cpf,
                 name: name,
                 birthday: birthday,
                 phone: phone,
                 image: imageData,
-              };
+                
+            };
 
             PatientsService.create(patientData)
             .then((result) => {
@@ -67,15 +67,19 @@ export const ModalUser = ({getAllPatAppoint} : IUpdtList) => {
                 }else{
 
                     setMsgCreate('Paciente Cadastrado');
-                    console.log("Paciente Criado");
+
+                    console.log(result);
     
-                    getAllPatAppoint();
+                    
 
                 }
-            })
-    
+
+            }).finally(() => getAllPatAppoint())
+
             setName('');    setCpf('');     setPhone('');   setBirthday('');  setImageData(null); setMsgCreate('');
+            
         }   
+
         
     }
 
@@ -84,124 +88,126 @@ export const ModalUser = ({getAllPatAppoint} : IUpdtList) => {
 
     return (
         <>
-        <Button variant="primary" size="lg" onClick={handleShow}  className="m-5 center" >Cadastrar Paciente <FaPlus size="20"/> </Button>
+            <Button variant="primary" size="lg" onClick={handleShow}  className="m-5 center" >Cadastrar Paciente <FaPlus size="20"/> </Button>
 
-        <Modal show={show} onHide={handleClose} animation={false}>
+            <Modal show={show} onHide={handleClose} animation={false}>
 
-            <Modal.Header closeButton>
-            <Modal.Title> Cadastro de Usuário </Modal.Title>
-            </Modal.Header>
+                <Modal.Header closeButton>
+                <Modal.Title> Cadastro de Usuário </Modal.Title>
+                </Modal.Header>
 
-            <Modal.Body>
+                <Modal.Body>
 
-                <Form onSubmit={handleSubmit}>
-                    
-                    <Form.Group>
-                        <Form.Label>Nome</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Nome completo"
-                            name="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
+                    <Form onSubmit={handleSubmit}>
+                        
+                        <Form.Group>
+
+                            <Form.Label>Nome</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Nome completo"
+                                name="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
                             />
-                    </Form.Group>
 
-                    <Form.Group>
-                        <Form.Label>CPF</Form.Label>
+                        </Form.Group>
 
-                        <MaskedInput
-                            value={cpf} 
-                            onChange={(e) => setCpf(e.target.value)}
-                            typeMask="999.999.999-99"
-                        />
+                        <Form.Group>
 
-                        <Form.Text><p className="textAlert">{(cpf.length > 0)  && (cpfIsValid(cpf) === false) ? "CPF inválido" : ""}</p></Form.Text>
+                            <Form.Label>CPF</Form.Label>
 
-                    </Form.Group>
+                            <MaskedInput
+                                value={cpf} 
+                                onChange={(e) => setCpf(e.target.value)}
+                                typeMask="999.999.999-99"
+                            />
 
+                            <Form.Text><p className="textAlert">{(cpf.length > 0)  && (cpfIsValid(cpf) === false) ? "CPF inválido" : ""}</p></Form.Text>
 
-                    <Form.Group>
-                        <Form.Label>Telefone</Form.Label>
+                        </Form.Group>
 
-                        <MaskedInput 
-                            value={phone} 
-                            onChange={(e) => setPhone(e.target.value)}
-                            typeMask="(99)99999-9999"
-                        />
-                    </Form.Group>
-                       
-                
-                    <Form.Group>
-                        <Form.Label>Data de nascimento</Form.Label>
-                        <Form.Control
-                            type="date"
-                            name="birthday"
-                            value={birthday}
-                            onChange={(e) => setBirthday(e.target.value)}
-                            required
-                        />
-                    </Form.Group>
-                
-                    <Form.Group controlId="formFileSm" className="mb-3">
-                        <Form.Label>Imagem de usuário</Form.Label>
-                        <Form.Control
-                            type="file"
-                            size="sm"
-                            name="image"
-                            accept="jpg, jpeg, png"
-                            required
-                            ref={imageInputRef}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                
-                                if (e.target.files && e.target.files[0]) {
+                        <Form.Group>
+
+                            <Form.Label>Telefone</Form.Label>
+
+                            <MaskedInput 
+                                value={phone} 
+                                onChange={(e) => setPhone(e.target.value)}
+                                typeMask="(99)99999-9999"
+                            />
+
+                        </Form.Group>
+                        
+                        <Form.Group>
+
+                            <Form.Label>Data de nascimento</Form.Label>
+                            <Form.Control
+                                type="date"
+                                name="birthday"
+                                value={birthday}
+                                onChange={(e) => setBirthday(e.target.value)}
+                                required
+                            />
+
+                        </Form.Group>
+                    
+                        <Form.Group controlId="formFileSm" className="mb-3">
+
+                            <Form.Label>Imagem de usuário</Form.Label>
+                            <Form.Control
+                                type="file"
+                                size="sm"
+                                name="image"
+                                accept="jpg, jpeg, png"
+                                required
+                                ref={imageInputRef}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                     
-                                    const typeImage = e.target.files[0].type;
-
-                                    if( (typeImage === 'image/png') || (typeImage === 'image/jpeg') || (typeImage === 'image/jpg')) {
-                                        setImageData(e.target.files[0]);
+                                    if (e.target.files && e.target.files[0]) {
                                         
-                                    }else {
+                                        const typeImage = e.target.files[0].type;
 
-                                        if (imageInputRef.current) {
-                                            imageInputRef.current.value = '';
+                                        if( (typeImage === 'image/png') || (typeImage === 'image/jpeg') || (typeImage === 'image/jpg')) {
+                                            setImageData(e.target.files[0]);
+                                            
+                                        }else {
+
+                                            if (imageInputRef.current) {
+                                                imageInputRef.current.value = '';
+                                            }
+
+                                            alert("Selecione uma imagem do tipo .PNG, .JPEG ou .JPG");
                                         }
 
-                                        alert("Selecione uma imagem do tipo .PNG, .JPEG ou .JPG");
                                     }
+                                }}
+                            />
 
-                                  }
-                            }}
-                        />
+                        </Form.Group>
 
                         
+                        <Modal.Footer>
 
-                    </Form.Group>
-
+                            <Button variant="secondary" onClick={handleClose}>
+                                Cancelar
+                            </Button>
+                            
+                            <Button variant="primary" type="submit">
+                                Cadastrar
+                            </Button>
                     
-                    <Modal.Footer>
-
-                        <Button variant="secondary" onClick={handleClose}>
-                            Cancelar
-                        </Button>
+                        </Modal.Footer>
+                    
                         
-                        <Button variant="primary" type="submit">
-                            Cadastrar
-                        </Button>
-                
-                    </Modal.Footer>
-                
-                    
-                </Form>
+                    </Form>
 
-                <p className={msgCreate === 'Paciente Cadastrado' ? "textSuccess centerTxt" : "textAlert centerTxt"}>{msgCreate}</p>
+                    <p className={msgCreate === 'Paciente Cadastrado' ? "textSuccess centerTxt" : "textAlert centerTxt"}>{msgCreate}</p>
 
-            </Modal.Body>
+                </Modal.Body>
 
             </Modal>
-
-    
 
         </>
     );

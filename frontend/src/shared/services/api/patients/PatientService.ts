@@ -71,6 +71,7 @@ const create = async (dataToCreate: IPatient): Promise<IPatient | ApiException> 
         const { data } = await Api().post('/paciente', dataToCreate,  {
             headers: { 'Content-type': 'multipart/form-data',}
         });
+        
         return data;
 
     } catch (error: any) {

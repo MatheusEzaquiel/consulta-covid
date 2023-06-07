@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Alert, Button, Row, Table } from "react-bootstrap";
+import { Alert, Row } from "react-bootstrap";
 import { ModalUser } from "./../shared/components/ModalUser";
 import { TablePatients } from "../shared/components/TablePatients";
 
@@ -17,7 +17,7 @@ export const Home = () => {
 
     }, [])
 
-    const getAllPatAppoint= () => {
+    const getAllPatAppoint = () => {
         
         PatientsService.getAllJoin()
             .then((result) => {
@@ -25,11 +25,8 @@ export const Home = () => {
                 if (result instanceof ApiException) {
                     alert(result.message);
                 } else {
-                    console.log(result);
 
-                    var newResult = [result];
-        
-                    console.log(newResult);
+                    console.log(result);
                     setPatients(result);
                     
                 }
